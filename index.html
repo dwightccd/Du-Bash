@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Du-Bash | Aprende scripting con Bash</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Navegacion principal">
+        <a class="brand" href="#inicio" data-route="inicio" aria-label="Du-Bash inicio">
+          <span class="brand-mark">$</span>
+          <span>
+            <strong>Du-Bash</strong>
+            <small>ASO scripting</small>
+          </span>
+        </a>
+        <nav class="nav-list">
+          <button class="nav-item active" data-route="inicio" type="button">Inicio</button>
+          <button class="nav-item" data-route="guia" type="button">Guia script</button>
+          <button class="nav-item" data-route="ruta" type="button">Ruta</button>
+          <button class="nav-item" data-route="practica" type="button">Practica</button>
+          <button class="nav-item" data-route="examen" type="button">Examen</button>
+          <button class="nav-item" data-route="resultados" type="button">Resultados</button>
+        </nav>
+        <div class="side-card">
+          <span class="label">Liga actual</span>
+          <strong id="leagueName">Bronce</strong>
+          <div class="mini-progress" aria-hidden="true"><span id="leagueProgress"></span></div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Terminal academy</p>
+            <h1 id="pageTitle">Aprende Bash jugando</h1>
+          </div>
+          <div class="stats-strip" aria-label="Progreso">
+            <span><strong id="xpTotal">0</strong> XP</span>
+            <span><strong id="streakCount">0</strong> racha</span>
+            <span><strong id="heartCount">5</strong> vidas</span>
+          </div>
+        </header>
+
+        <section id="viewInicio" class="view active-view" aria-labelledby="pageTitle">
+          <div class="hero">
+            <div class="hero-copy">
+              <p class="eyebrow">Tu entrenador de examen</p>
+              <h2>Aprueba ASO06 creando el script desde cero.</h2>
+              <p>
+                Du-Bash te lleva de hoja en blanco a entrega: entender el enunciado,
+                disenar funciones, validar parametros, recorrer /etc/passwd con awk,
+                calcular espacio con du, exportar CSV y registrar todo en historial.log.
+              </p>
+              <div class="hero-actions">
+                <button class="primary-btn" data-route="guia" type="button">Crear script paso a paso</button>
+                <button class="secondary-btn" data-route="examen" type="button">Simular examen</button>
+              </div>
+            </div>
+            <div class="mascot-panel">
+              <img src="assets/du-bash-penguin.png" alt="Pinguino mascota de Du-Bash" />
+              <div class="speech">
+                <strong>Tip de hoy</strong>
+                <span id="dailyTip">Usa comillas en variables: "$HOME". Tu futuro yo te lo agradecera.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="dashboard-grid">
+            <article class="panel">
+              <span class="label">Objetivo diario</span>
+              <div class="goal-row">
+                <strong><span id="dailyXp">0</span>/50 XP</strong>
+                <span id="goalState">En marcha</span>
+              </div>
+              <div class="progress-bar"><span id="dailyProgress"></span></div>
+            </article>
+            <article class="panel">
+              <span class="label">Siguiente paso</span>
+              <h3 id="nextLessonName">Leer el enunciado</h3>
+              <p id="nextLessonDesc">Detecta entradas, salidas, restricciones y pruebas antes de escribir codigo.</p>
+            </article>
+            <article class="panel">
+              <span class="label">Insignias</span>
+              <div class="badges" id="badges"></div>
+            </article>
+          </div>
+        </section>
+
+        <section id="viewGuia" class="view" aria-label="Guia para crear el script">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Modo examen</p>
+              <h2>Construye apartado4a.sh desde cero</h2>
+            </div>
+            <button class="secondary-btn" data-route="examen" type="button">Probar mi script</button>
+          </div>
+          <div class="builder-layout">
+            <aside class="step-list" id="scriptStepList"></aside>
+            <article class="builder-card">
+              <div id="scriptStepDetail"></div>
+              <div class="code-toolbar">
+                <span class="label">Script acumulado hasta este paso</span>
+                <button class="secondary-btn" data-copy-script type="button">Copiar al simulador</button>
+              </div>
+              <pre class="code-block builder-code"><code id="scriptBuildCode"></code></pre>
+              <div class="rubric-strip" id="rubricStrip"></div>
+            </article>
+          </div>
+        </section>
+
+        <section id="viewRuta" class="view" aria-label="Ruta de aprendizaje">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">Camino ASO06</p>
+              <h2>Ruta de scripting Bash</h2>
+            </div>
+            <button class="secondary-btn" data-reset type="button">Reiniciar progreso</button>
+          </div>
+          <div class="lesson-path" id="lessonPath"></div>
+        </section>
+
+        <section id="viewPractica" class="view" aria-label="Practica">
+          <div class="practice-layout">
+            <aside class="lesson-list" id="practiceLessonList"></aside>
+            <article class="challenge-card" id="challengeCard"></article>
+          </div>
+        </section>
+
+        <section id="viewExamen" class="view" aria-label="Simulador de examen">
+          <div class="exam-layout">
+            <article class="exam-card">
+              <p class="eyebrow">Simulador ASO06</p>
+              <h2>Pega tu script y mira si esta para entregar</h2>
+              <p>
+                El corrector busca los requisitos del enunciado: ayuda -help, root,
+                parametros, awk, du, CSV, log con fecha y resumen final.
+              </p>
+              <textarea id="examEditor" spellcheck="false" aria-label="Editor de script"></textarea>
+              <div class="challenge-actions">
+                <button class="primary-btn" data-analyze-script type="button">Analizar script</button>
+                <button class="secondary-btn" data-load-skeleton type="button">Cargar plantilla</button>
+              </div>
+            </article>
+            <aside class="exam-card">
+              <p class="eyebrow">Resultado</p>
+              <h2 id="examScore">0/10</h2>
+              <div class="exam-checks" id="examChecks"></div>
+            </aside>
+          </div>
+        </section>
+
+        <section id="viewResultados" class="view" aria-label="Resultados">
+          <div class="results-grid">
+            <article class="score-card">
+              <span class="label">Nivel</span>
+              <strong id="levelName">Novato de shell</strong>
+              <p id="levelDetail">Completa retos para subir de liga.</p>
+            </article>
+            <article class="score-card">
+              <span class="label">Precision</span>
+              <strong id="accuracy">0%</strong>
+              <p>Respuestas correctas sobre intentos totales.</p>
+            </article>
+            <article class="score-card">
+              <span class="label">Lecciones completadas</span>
+              <strong id="completedLessons">0/0</strong>
+              <p>Progreso total de la ruta.</p>
+            </article>
+          </div>
+          <div class="panel">
+            <div class="section-head compact">
+              <div>
+                <p class="eyebrow">Historial</p>
+                <h2>Ultimas sesiones</h2>
+              </div>
+            </div>
+            <div class="history-list" id="historyList"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
